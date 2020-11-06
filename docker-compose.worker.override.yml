@@ -7,15 +7,9 @@ x-disabled-service:
   command: ""
   entrypoint: ""
 
-networks:
-  monitor-net:
-    driver: bridge
-
 volumes:
   dag_data: {}
-  postgres_data: {}
-  prometheus_data: {}
-  grafana_data: {}
+#  postgres_data: {} # TODO: Disable properly
 
 services:
   redis:

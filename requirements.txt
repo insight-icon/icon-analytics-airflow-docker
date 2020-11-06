@@ -4,3 +4,4 @@ icon-etl>=0.1.0
 google-cloud-bigquery
 psycopg2-binary
 SQLAlchemy
+httplib2
