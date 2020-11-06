@@ -15,17 +15,17 @@ services:
     depends_on:
       - webserver
 
-#  git-sync:
-#    image: openweb/git-sync:0.0.1
-#    environment:
-#      GIT_SYNC_REPO: ${DAGS_REPO}
-#      GIT_SYNC_DEST: "/git"
-#      GIT_SYNC_BRANCH: ${DAGS_REPO_BRANCH:-master}
-#      GIT_SYNC_REV: "FETCH_HEAD"
-#      GIT_SYNC_WAIT: "10"
-#    volumes:
-#      - ./dags:/git
-#    restart: always
+  git-sync:
+    image: openweb/git-sync:0.0.1
+    environment:
+      GIT_SYNC_REPO: ${DAGS_REPO}
+      GIT_SYNC_DEST: "/git"
+      GIT_SYNC_BRANCH: ${DAGS_REPO_BRANCH:-master}
+      GIT_SYNC_REV: "FETCH_HEAD"
+      GIT_SYNC_WAIT: "10"
+    volumes:
+      - ./dags:/git
+    restart: always
 
   redis:
     image: 'redis:5.0.5'
@@ -55,8 +55,9 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-airflow}
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
+      - AIRFLOW__CORE__DAGS_FOLDER=dags/dags
     volumes:
-      - ./dags/dags:/usr/local/airflow/dags
+      - ./dags:/usr/local/airflow/dags
       - ./plugins:/usr/local/airflow/plugins
       - ./requirements.txt:/requirements.txt
     ports:
@@ -86,8 +87,9 @@ services:
     depends_on:
       - webserver
     volumes:
-      - ./dags/dags:/usr/local/airflow/dags
+      - ./dags:/usr/local/airflow/dags
       - ./plugins:/usr/local/airflow/plugins
+      - ./requirements.txt:/requirements.txt
     environment:
       - EXECUTOR=Celery
       - LOAD_EX=${LOAD_EX:-n}
@@ -96,6 +98,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-airflow}
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
+      - AIRFLOW__CORE__DAGS_FOLDER=dags/dags
     command: scheduler
   
   worker:
@@ -104,8 +107,9 @@ services:
     depends_on:
       - scheduler
     volumes:
-      - ./dags/dags:/usr/local/airflow/dags
+      - ./dags:/usr/local/airflow/dags
       - ./plugins:/usr/local/airflow/plugins
+      - ./requirements.txt:/requirements.txt
     environment:
       - EXECUTOR=Celery
       - FERNET_KEY=${FERNET_KEY:-46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=}
@@ -113,5 +117,5 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-airflow}
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
+      - AIRFLOW__CORE__DAGS_FOLDER=dags/dags
     command: worker
-  
