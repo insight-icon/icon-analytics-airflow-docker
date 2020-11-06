@@ -15,17 +15,17 @@ services:
     depends_on:
       - webserver
 
-  git-sync:
-    image: openweb/git-sync:0.0.1
-    environment:
-      GIT_SYNC_REPO: ${DAGS_REPO}
-      GIT_SYNC_DEST: "/git"
-      GIT_SYNC_BRANCH: ${DAGS_REPO_BRANCH:-master}
-      GIT_SYNC_REV: "FETCH_HEAD"
-      GIT_SYNC_WAIT: "10"
-    volumes:
-      - ./dags:/git
-    restart: always
+#  git-sync:
+#    image: openweb/git-sync:0.0.1
+#    environment:
+#      GIT_SYNC_REPO: ${DAGS_REPO}
+#      GIT_SYNC_DEST: "/git"
+#      GIT_SYNC_BRANCH: ${DAGS_REPO_BRANCH:-master}
+#      GIT_SYNC_REV: "FETCH_HEAD"
+#      GIT_SYNC_WAIT: "10"
+#    volumes:
+#      - ./dags:/git
+#    restart: always
 
   redis:
     image: 'redis:5.0.5'
@@ -55,7 +55,6 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-airflow}
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
-      - DAGS_VOLUME_SUBPATH=dags
     volumes:
       - ./dags/dags:/usr/local/airflow/dags
       - ./plugins:/usr/local/airflow/plugins
@@ -97,7 +96,6 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-airflow}
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
-      - DAGS_VOLUME_SUBPATH=dags
     command: scheduler
   
   worker:
@@ -115,6 +113,5 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-airflow}
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
-      - DAGS_VOLUME_SUBPATH=dags
     command: worker
   
