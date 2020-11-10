@@ -56,6 +56,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
       - AIRFLOW__CORE__DAGS_FOLDER=dags/dags
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-NotSet}  # Delete these if using hosts instance profile
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-NotSet}
     volumes:
       - ./dags:/usr/local/airflow/dags
       - ./plugins:/usr/local/airflow/plugins
@@ -99,6 +101,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
       - AIRFLOW__CORE__DAGS_FOLDER=dags/dags
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-NotSet}  # Delete these if using hosts instance profile
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-NotSet}
     command: scheduler
   
   worker:
@@ -118,4 +122,6 @@ services:
       - POSTGRES_DB=${POSTGRES_DB:-airflow}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redispass}
       - AIRFLOW__CORE__DAGS_FOLDER=dags/dags
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-NotSet}  # Delete these if using hosts instance profile
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-NotSet}
     command: worker
