@@ -10,16 +10,23 @@ To run the basic stack which includes:
 - Nginx
 
 1. Install docker and docker-compose.  
-2. At the root of this repo, clone or fork [icon-etl-airflow](https://github.com/insight-icon/icon-etl-airflow) and rename the directory `dags`. 
+2. To pull in dags, you have two options, creating a local dags folder with the DAGs or using git-sync and configuring the remote repo.  Both options are viable but it is recommended to store the dags in it's own repository, ie 
+
 ```bash
 git clone https://github.com/insight-icon/icon-etl-airflow dags
 ```
-3. At the root of this repo, run: 
+
+3. You will need an S3 bucket and credentials to to read and write to that bucket.  If using ec2, it is advised to use an instance profile with appropriate permissions or you can use API keys and populate them in the .env file. 
+
+4. At the root of this repo, run: 
 ```bash
 docker-compose up -d 
 ``` 
 
 Navigate to `localhost` in your browser and you should find airflow running after about 30 seconds. 
+
+5. Modify the `variables.json` file with appropriate values. Then, inside the airflow console, go to `Admin` -> `Variables` and load the variables.json file with the `Choose File` option.
+
 
 To run with more advanced / indevelopment options, modify the `docker-compose.*.override.yml` or include it in the `docker-compose` call. 
 
