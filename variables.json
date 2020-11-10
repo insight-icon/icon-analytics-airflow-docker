@@ -1,0 +1,9 @@
+{
+  "icon_cloud_provider": "aws",
+  "icon_database": "postgres",
+  "icon_output_bucket": "YOURBUCKETHERE",
+  "icon_provider_uris": "https://ctz.solidwallet.io/api/v3",
+  "notification_emails": [""],
+  "icon_load_start_date": "2019-1-1"
+}
+
